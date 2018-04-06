@@ -1,0 +1,5 @@
+var ServerConf= {
+    ApiHost: ""
+    ,ServicePort:3003
+};
+module.exports=ServerConf;

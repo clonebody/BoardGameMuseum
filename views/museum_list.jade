@@ -1,0 +1,30 @@
+extends layout
+
+block content
+    form(action='/museum')
+        span 名称：
+        input(type='text', name='name' value = '#{query.name}')
+        br
+        span 最小人数：
+        input(type='number', name='minPlayers', min='1' max='10' value = '#{query.minPlayers}')
+        br
+        span 最大人数：
+        input(type='number', name='maxPlayers', min='1' max='10' value = '#{query.maxPlayers}')
+        br
+        span 机制：
+        br
+        input(type='submit', value='搜索')
+    - var index = 0
+    each item in gameData
+        - index += 1
+        span No：#{index} 
+        a(href='/museum/#{item.gameid}/#{item.nameCN}/info') #{item.nameCN}
+        br
+        span 评分：#{item.average}<br>
+        span 发行时间：#{item.yearpublished}<br>
+        span 重度：#{item.averageweight}<br>
+        span 游戏人数：#{item.minplayers} ~ #{item.maxplayers} [建议#{item.suggested_numplayers}]<br>
+        span 游戏时间：#{item.minplaytime} ~ #{item.maxplaytime} 分钟<br>
+        span 分类：#{item.categorysCN}<br>
+        span 机制：#{item.mechanicsCN}<br>
+        br

@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    span 游戏名称：#{nameCN}<br>
+    span 评分：#{average}<br>
+    span 发行时间：#{yearpublished}<br>
+    span 重度：#{averageweight}<br>
+    span 游戏人数：#{minplayers} ~ #{maxplayers} [建议#{suggested_numplayers}]<br>
+    span 游戏时间：#{minplaytime} ~ #{maxplaytime} 分钟<br>
+    span 分类：#{categorysCN}<br>
+    span 机制：#{mechanicsCN}<br>
+    a(href='/museum/#{gameid}/#{nameCN}/rule') 游戏规则<br>
