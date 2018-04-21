@@ -27,8 +27,6 @@ router.all('/', function(req, res, next) {
 
     sql += ' ORDER BY average DESC LIMIT 10'
 
-    console.log(sql);
-
     dbClient.query(sql, null, function (err, results, fields) {
         if (err) {throw err;}
 
@@ -38,6 +36,10 @@ router.all('/', function(req, res, next) {
     });
 });
 
+var gameModExample = require("./museumGuideExample")
+var getGameGuideMod = function(gameData) {
+    return gameModExample;
+}
 
 var pageFunction = {
 	"info" : function(gameData, req, res, next) {
@@ -49,9 +51,22 @@ var pageFunction = {
 	"rule" : function(gameData, req, res, next) {
 	    //gameData.rates = new Number(gameData.average).toFixed(1)
         //gameData.weight = new Number(gameData.averageweight).toFixed(2)
-        gameData.docTitle = gameData.nameCN + "规则";
-		res.render('museum_rule', gameData);
+        docTitle = gameData.nameCN + "规则";
+        gameMod = getGameGuideMod(gameData);
+		res.render('museum_rule', { "docTitle" : docTitle, "gameData" : gameData, "gameMod" : gameMod});
 	},
+}
+
+var calcNameInUrl = function(gameData) {
+    if(!gameData.nameCN || gameData.nameCN == '') {
+        return gameData.gameid;
+    }
+
+    var name = gameData.nameCN;
+
+    //  TODO 剔除不安全字符
+
+    return name;
 }
 
 var gameItem = function(req, res, next) {
@@ -69,7 +84,7 @@ var gameItem = function(req, res, next) {
             gameData = results[0]
 
             //	TODO 字符串转换
-            var expectedName = gameData.nameCN;
+            var expectedName = calcNameInUrl(gameData);
 
             if(req.params.name != expectedName) {
             	needRedirect = true;

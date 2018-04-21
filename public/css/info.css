@@ -1,0 +1,34 @@
+div.title {
+	margin-top: 5px;
+	padding: 10px;
+	color: white;
+	background: green
+}
+
+div.context {
+	padding: 5px;
+	//border-style: solid;
+	//border-color: green;
+	//border-width: 2px;
+}
+
+div.hint {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	color: blue;
+	font-style: italic;
+}
+
+div.display {
+	padding: 5px;
+	//text-align: center;
+	background: yellow;
+}
+
+div.show {
+	font-size: 30px;
+}
+
+img.icon {
+	height: 30px;
+}

@@ -1,6 +1,65 @@
 extends layout
 
 block content
-    a(href='/museum/#{gameid}/#{nameCN}/guide') 返回简介<br>
-    span 游戏名称：#{nameCN}<br>
-    span 规则
+    a(href='/museum/#{gameData.gameid}/#{gameData.nameCN}/guide') 返回简介<br>
+    span 游戏名称：#{gameData.nameCN}<br>
+    button(onclick = 'listMode()') 列表模式
+    button(onclick = 'guideMode()') 向导模式
+    .display
+    script.
+        $(document).ready(function(){
+        	listMode();
+        });
+        var gameMod = !{gameMod};
+        function showListItem(d, item) {
+            var data = gameMod.mods[item];
+            if(data) {
+                d.append("<b>" + data.title + "</b><br/>");
+                d.append(data.context + "<br/>");
+                if(data.next) {
+                    showListItem(d, data.next);
+                }
+            }
+            else
+            {
+                alert("缺少" + item + "条目");
+            }
+        }
+        function listMode() {
+            var d = $(".display");
+            d.empty();
+            showListItem(d, gameMod.entry);
+        }
+        function showGuideItem(item) {
+            var data = gameMod.mods[item];
+            if(data) {
+                var d = $(".display");
+                d.empty();
+                d.append("<b>" + data.title + "</b><br/>");
+                d.append(data.context + "<br/>");
+                if(data.link) {
+                    for(key in data.link) {
+                        d.append("<button value = '" + data.link[key] + "' onclick = 'guideExchange(value)'>" + key + "</button></br>");
+                    }
+                }
+            }
+            else
+            {
+                alert("缺少" + item + "条目");
+                guideHome();
+            }
+        }        
+        function guideExchange(item) {
+            var d = $(".display");
+            var t = 200;
+            d.fadeOut(t, function(){
+                showGuideItem(item);
+                d.fadeIn(t);
+            });            
+        }
+        function guideHome() {
+            showGuideItem(gameMod.entry);
+        }
+        function guideMode() {
+        	guideHome();
+        }
